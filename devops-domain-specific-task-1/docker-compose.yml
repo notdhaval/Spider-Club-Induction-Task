@@ -1,0 +1,52 @@
+services:
+  timetable-cache:
+    image: postgres:15-alpine
+    container_name: spider-db
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=cr45_reduced
+    volumes:
+      - spider_storage:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d cr45_reduced"]
+      interval: 3s
+      timeout: 3s
+      retries: 5
+    networks:
+      - spider-net
+
+  api-server:
+    build: ./backend
+    container_name: spider-api
+    network_mode: "service:timetable-cache"
+    environment:
+      - DB_HOST=127.0.0.1
+      - DB_PORT=5432
+      - DB_USER=postgres
+      - DB_PASSWORD=postgres
+      - DB_NAME=cr45_reduced
+      - PORT=8080
+    depends_on:
+      timetable-cache:
+        condition: service_healthy
+
+  gateway:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: spider-ingress
+    ports:
+      - "80:80"
+    networks:
+      - spider-net
+
+volumes:
+  spider_storage:
+    driver: local
+
+networks:
+  spider-net:
+    driver: bridge
