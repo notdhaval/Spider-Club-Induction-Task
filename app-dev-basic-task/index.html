@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>King of Diamonds</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="wrapper">
+        <div class="header">
+            <h2>King of Diamonds Game </h2>
+            <p>Target = (Average of all chosen numbers) * 0.8</p>
+        </div>
+
+        <div class="game-container">
+            <div class="panel scoreboard">
+                <h3>Survivor Status</h3>
+                <div class="player-card" id="card-user">
+                    <span>You (Player)</span>
+                    <span id="score-user" class="hearts">❤❤❤❤❤</span>
+                </div>
+                <div class="player-card" id="card-bot">
+                    <span>Enemy (Bot)</span>
+                    <span id="score-bot" class="hearts">❤❤❤❤❤</span>
+                </div>
+
+                <div class="metrics">
+                    <h3>Round Status</h3>
+                    <div class="stat-line">Round: <span id="lbl-round">1</span></div>
+                    <div class="stat-line">Last Target: <span id="lbl-target">--</span></div>
+                    <div class="stat-line">Closest Guess: <span id="lbl-winner">--</span></div>
+                </div>
+            </div>
+
+            <div class="panel terminal">
+                <h3>Execution History Logs</h3>
+                <div id="terminal-screen" class="screen">
+                    <div class="system-msg">[READY] Awaiting player input number. Enter a number between 0 and 100 please.</div>
+                </div>
+
+                <div class="controls">
+                    <input type="number" id="txt-input" min="0" max="100" placeholder="0-100">
+                    <button id="btn-play">Submit</button>
+                    <button id="btn-restart" style="display: none;">Restart</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
